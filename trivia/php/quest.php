@@ -1,6 +1,5 @@
 <?PHP 
-    $rightanswer = $_POST["rightanss"];
-		$link = mysql_connect("localhost", "username", "password");
+		$link = mysql_connect("localhost", "root", "");
             if(!$link){
             die ("No se puede conectar: " . mysql_error());
             }

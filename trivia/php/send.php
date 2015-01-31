@@ -6,7 +6,7 @@
     $ans2 = $_POST["anss2"];
     $ans3 = $_POST["anss3"];
     $rightanswer = $_POST["rightanss"];
-		$link = mysql_connect("localhost", "username", "password");
+		$link = mysql_connect("localhost", "root", "");
             if(!$link){
             die ("No se puede conectar: " . mysql_error());
             }

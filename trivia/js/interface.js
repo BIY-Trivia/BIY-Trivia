@@ -5,11 +5,14 @@ $(document).ready(function() {
     var arrAns2 = [" "];
     var arrAns3 = [" "];
     var arrRightAns = [" "];
-    var x = 0;
+    var arrUsedBefore = [0];
     var questlength = 0;
 
     var numberTaken = 0;
-    var lastSelected = 0;
+    var wasUsed = 0;
+    var lastUsed = 0;
+
+//Get all the questions from the DB and order them into specific arrays
 
     var parametros={
         "Usr":""
@@ -21,7 +24,7 @@ $(document).ready(function() {
             success:function(response){
                 var res = response.trim().split("|");
                 questlength = res.length-1;
-                for(x = 0; x < res.length-1; x++)
+                for(var x = 0; x < res.length-1; x++)
                 {
                     var res1 = res[x].split("^");
                     arrType.push(res1[0]);
@@ -33,15 +36,8 @@ $(document).ready(function() {
                 }
             }
         });
+
     var jumbotron=$("#jumbotron");
-
-
-
-
-
-
-
-
 
     var time = 0;
     var nowtime = 0;
@@ -53,149 +49,181 @@ $(document).ready(function() {
     function score2(){
         $("#score").html(score);
     }
-    function scoreac(minplus){
-        score = score + minplus;
+    function restartPgrs(){
+        $("#pgrbar1").css("width","0%");
+        $("#pgrbar2").css("width","0%");
     }
 $("#pgrbar-lbl").hide();
-
+//Starts a global clock and score status updates
     var timer = setInterval(function(){timer1()},100);
     var score1 = setInterval(function(){score2()},100);
+
+//Code for the Easy version of the game
 
     $("#easy").click(function(){
         
     });
+
+//Code for the Timed version of the game
+
     $("#timed").click(function(){
+        function loose(){
+             restartPgrs();
+             jumbotron.animate({backgroundColor:'#EF5350'},"fast");
+             $("#welcome").html("Ooooooh! We are sorry you have lost, maybe the next time");
+             $("#question").html('Hey there, I think you would like to visit <a href="http://www.build-it-yourself.com">Build-It-Yourself</a>');
+             startpgr("0");
+        }
+        function win(){
+             restartPgrs();
+             jumbotron.animate({backgroundColor:'lightgreen'},"fast");
+             $("#welcome").html('Awesome!! You have won the game!');
+             $("#question").html('Maybe you would like to visit <a href="http://www.build-it-yourself.com">Build-It-Yourself</a>');
+             startpgr("0");
+         }
+        function scoreac(minplus){
+                if(score + minplus< -5)
+                    {loose();}
+                else if(score + minplus > 10)
+                    {win();}
+                else{
+                    score = score + minplus;
+                    selectquest();
+                    startpgr("1");}
+        }
+    //Count down begins
         var quest = 0;
         var outcount = 5;
         $("#welcome").html("The game starts in "+outcount);
-        var ttimer = setInterval(function(){wel()},1000);
-        function wel(){
-            if(outcount != 0)
+        jumbotron.animate({backgroundColor:'#4DB6AC'},"fast");
+        var ttimer = setInterval(function(){wel1()},1000);
+        function wel1(){
+            if(outcount != 1)
             {
                 outcount--;
+                if(outcount == 4){jumbotron.animate({backgroundColor:'#9CCC65'},"fast");}else if(outcount == 3){jumbotron.animate({backgroundColor:'#FFCC80'},"fast");}else if(outcount == 2){jumbotron.animate({backgroundColor:'#9FA8DA'},"fast");}else{jumbotron.animate({backgroundColor:'#90A4AE'},"fast");}
                 $("#welcome").html("The game starts in "+outcount);
             }
             else{
+                jumbotron.animate({backgroundColor:'#E0E0E0'},"fast");
                 clearInterval(ttimer);
-                startpgr();
+                startpgr("1");
                 selectquest();
-                anss();
             }
         }
-            $("#ans-1").click(function(){
-                if($("#ans-1").val() == arrRightAns[quest])
+    //Count down stops
+    //Checking the selected answer
+        function checkAnswer(ans){
+            if(ans == arrRightAns[quest])
                 {
                     jumbotron.animate({backgroundColor:'lightgreen'},"fast");
                     jumbotron.animate({backgroundColor:'#E0E0E0'},"fast");
                     scoreac(1);
-                    startpgr();
-                    selectquest();
                 }
-                else{
-                    jumbotron.animate({backgroundColor:'#FF3D3D'},"fast");
+            else{
+                    jumbotron.animate({backgroundColor:'#EF5350'},"fast");
                     jumbotron.animate({backgroundColor:'#E0E0E0'},"fast");
                     scoreac(-1);
-                    startpgr();
-                    selectquest();
                 }
+        }
+    //Waiting for the user to choose an answer
+            $("#ans-1").click(function(){
+                checkAnswer($("#ans-1").val());
             });
             $("#ans-2").click(function(){
-                if($("#ans-2").val() == arrRightAns[quest])
-                {
-                    jumbotron.animate({backgroundColor:'lightgreen'},"fast");
-                    jumbotron.animate({backgroundColor:'#E0E0E0'},"fast");
-                    scoreac(1);
-                    startpgr();
-                    selectquest();
-                }
-                else{
-                    jumbotron.animate({backgroundColor:'#FF3D3D'},"fast");
-                    jumbotron.animate({backgroundColor:'#E0E0E0'},"fast");
-                    scoreac(-1);
-                    startpgr();
-                    selectquest();
-                }
+                checkAnswer($("#ans-2").val());
             });
             $("#ans-3").click(function(){
-                if($("#ans-3").val() == arrRightAns[quest])
-                {
-                    jumbotron.animate({backgroundColor:'lightgreen'},"fast");
-                    jumbotron.animate({backgroundColor:'#E0E0E0'},"fast");
-                    scoreac(1);
-                    startpgr();
-                    selectquest();
-                }
-                else{
-                    jumbotron.animate({backgroundColor:'#FF3D3D'},"fast");
-                    jumbotron.animate({backgroundColor:'#E0E0E0'},"fast");
-                    scoreac(-1);
-                    startpgr();
-                    selectquest();
-                }
+                checkAnswer($("#ans-3").val());
             });
-        function startpgr()
+    //Answer time count down and Progress Bar effect
+        function startpgr(bool)
         {
-            var pgr = 0;
-            var timin = 0;
-            nowtime = time;
-            limit = nowtime+10;
-            $("#pgrbar-lbl").fadeIn();
-            $("#pgrbar1").css("width",pgr+"%");
-            $("#pgrbar2").css("width",pgr+"%");
-            var ttimer1 = setInterval(function(){wel()},100);
-            function wel(){
-                if(limit >= time){
-                    if(((10-(limit-time))*10) < 60){
-                        $("#pgrbar1").css("width",((10-(limit-time))*10)+"%");
+            if(bool == "0"){
+                limit = 01051997;
+            }
+            else{
+                var pgr = 0;
+                var timin = 0;
+                nowtime = time;
+                var answerTime = 5;
+                limit = nowtime+answerTime;
+                $("#pgrbar-lbl").fadeIn();
+                $("#pgrbar1").css("width",pgr+"%");
+                $("#pgrbar2").css("width",pgr+"%");
+                var ttimer1 = setInterval(function(){wel()},100);
+                function wel(){
+                    if(limit >= time){
+                        var pgrPerc = ((answerTime-(limit-time))*100)/answerTime;
+                        if(pgrPerc < 60){
+                            $("#pgrbar1").css("width",pgrPerc+"%");
+                        }
+                        else{
+                            $("#pgrbar2").css("width",(pgrPerc-56)+"%");
+                        }
+                    }
+                    else if(limit == 01051997){
+                        clearInterval(ttimer1);
                     }
                     else{
-                        $("#pgrbar2").css("width",(((10-(limit-time))*10)-56)+"%");
+                        clearInterval(ttimer1);
+                        restartPgrs();
+                        checkAnswer("[]76/'.;.'2.1';.21';4.3'2./4';1.241'/.4';2.");
                     }
-                }
-                else{
-                    clearInterval(ttimer1);
-                    $("#pgrbar1").css("width","0%");
-                    $("#pgrbar2").css("width","0%");
-                    jumbotron.animate({backgroundColor:'#FF3D3D'},"fast");
-                    jumbotron.animate({backgroundColor:'#E0E0E0'},"fast");
-                    scoreac(-1);
-                    startpgr();
-                    selectquest();
                 }
             }
         }
-
-    function selectquest(){
-            numberTaken = (Math.floor((Math.random() * questlength) + 1));
-            if(numberTaken == 0 || numberTaken == lastSelected)
-            {
-                tryRandom();
-            }
-            else{
+    //Print the Topic, Question and Answers into the interface
+    function printQuest(){
             quest = numberTaken;
             $("#welcome").html("Topic - "+arrType[quest]);
             $("#question").html(arrQuest[quest]);
             $("#ans-1").val(arrAns1[quest]);
             $("#ans-2").val(arrAns2[quest]);
             $("#ans-3").val(arrAns3[quest]);
-            lastSelected = numberTaken;
+            arrUsedBefore.push(numberTaken);
+            lastUsed = numberTaken;
+        }
+    //Controls the amount of questions checked
+    function restartUsed(){
+        arrUsedBefore.splice(1,questlength);
+    }
+    //Randomly select a question from the array
+    function selectquest(){
+            numberTaken = (Math.floor((Math.random() * questlength) + 1));
+            if(arrUsedBefore.length-1 == questlength){restartUsed();}
+            for(var x = 0; x <= arrUsedBefore.length-1; x++){
+                if(numberTaken == arrUsedBefore[x] || numberTaken == lastUsed)
+                {
+                    wasUsed++;
+                }
+            }
+            if(wasUsed > 0){
+                wasUsed = 0;
+                tryRandom();
+            }
+            else{
+                wasUsed = 0;
+                printQuest();
             }
         }
 
     function tryRandom(){
             numberTaken = (Math.floor((Math.random() * questlength) + 1));
-            if(numberTaken == 0 || numberTaken == lastSelected)
-            {
+            if(arrUsedBefore.length-1 == questlength){restartUsed();}
+            for(var x = 0; x <= arrUsedBefore.length-1; x++){
+                if(numberTaken == arrUsedBefore[x] || numberTaken == lastUsed)
+                {
+                    wasUsed++;
+                }
+            }
+            if(wasUsed > 0){
+                wasUsed = 0;
                 selectquest();
             }
             else{
-            quest = numberTaken;
-            $("#welcome").html("Topic - "+arrType[quest]);
-            $("#question").html(arrQuest[quest]);
-            $("#ans-1").val(arrAns1[quest]);
-            $("#ans-2").val(arrAns2[quest]);
-            $("#ans-3").val(arrAns3[quest]);
-            lastSelected = numberTaken;
+                wasUsed = 0;
+                printQuest();
             }
         }
 
