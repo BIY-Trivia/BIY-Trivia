@@ -14,13 +14,10 @@ if (mysqli_connect_errno())
   echo "Failed to connect to MySQL: " . mysqli_connect_error();
   }
 
-$sql4 = "INSERT INTO questions(question, topic, answer1, answer2, answer3, rightanswer) VALUES ('" . $quest . "','" . $topic . "','" . $ans1 . "','" . $ans2 . "','" . $ans3 . "','" . $rightanswer . "')";
-
-$qu2 = mysqli_query($link, $sql4);
-
-if (!$qu2) {
-    die("No se envia el forulario: " . mysqli_error());
-}
+$stmt = mysqli_prepare($link,"INSERT INTO questions(question, topic, answer1, answer2, answer3, rightanswer) VALUES (?,?,?,?,?,?)");
+mysqli_stmt_bind_param($stmt, 'ssssss', $quest, $topic, $ans1, $ans2, $ans3, $rightanswer);
+mysqli_stmt_execute($stmt);
+mysqli_stmt_close($stmt);
 
 mysqli_close($link);
 ?>
