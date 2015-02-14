@@ -8,23 +8,19 @@ $ans1 = $_POST["anss1"];
 $ans2 = $_POST["anss2"];
 $ans3 = $_POST["anss3"];
 $rightanswer = $_POST["rightanss"];
-$link = mysql_connect($mysql_servername, $mysql_username, $mysql_password);
-if (!$link) {
-    die("No se puede conectar: " . mysql_error());
-}
+$link = mysqli_connect($mysql_servername, $mysql_username, $mysql_password,$mysql_db);
+if (mysqli_connect_errno())
+  {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  }
 
-$db = mysql_select_db("clhtecno_trivia", $link);
-if (!$db) {
-    die("No se puede conectar a db: " . mysql_error());
-}
+$sql4 = "INSERT INTO questions(question, topic, answer1, answer2, answer3, rightanswer) VALUES ('" . $quest . "','" . $topic . "','" . $ans1 . "','" . $ans2 . "','" . $ans3 . "','" . $rightanswer . "')";
 
-$sql4 = mysql_query("INSERT INTO questions(question, topic, answer1, answer2, answer3, rightanswer) VALUES ('" . $quest . "','" . $topic . "','" . $ans1 . "','" . $ans2 . "','" . $ans3 . "','" . $rightanswer . "')");
-
-$qu2 = mysql_query($sql4, $link);
+$qu2 = mysqli_query($link, $sql4);
 
 if (!$qu2) {
-    die("No se envia el forulario: " . mysql_error());
+    die("No se envia el forulario: " . mysqli_error());
 }
 
-mysql_close($link);
+mysqli_close($link);
 ?>
