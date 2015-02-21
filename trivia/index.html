@@ -1,91 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+    <head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
 
-    <title>BIY Trivia</title>
+        <title>BIY Trivia</title>
 
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+        <!-- Bootstrap Core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet/less" type="text/css" href="css/styles.less" />
-    
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.3.1/less.min.js"></script>
-    
-    <script src="js/jquerycolor.js"></script>
+        <!-- Custom CSS -->
+        <link rel="stylesheet/less" type="text/css" href="css/styles.less" />
 
-    <script src="js/interface.js"></script>
+        <!-- jQuery -->
+        <script src="js/jquery.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.3.1/less.min.js"></script>
 
-</head>
+        <script src="js/jquerycolor.js"></script>
 
-<body>
-    <nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Trivia test points  <span id="score" class="badge">0</span></a>
-    </div>
+        <script src="js/interface.js"></script>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Difficulty <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a id="easy" href="#">Easy</a></li>
-            <li class="divider"></li>
-            <li><a id="timed" href="#">Timed</a></li>
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Other options <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a id="easy" href="create.html">Create a question</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-<div class="jumbotron" id="jumbotron">
-  <h1 class="text-center" id="welcome">Hi there BIY!</h1>
-  <p class="text-center" id="question">Please click on "Difficulty" and then on "Timed" (Since I haven't finished the Easy version)</p>
-</div>
+    </head>
 
-  <div class="col-md-4"><input id="ans-1" class="btn btn-default answer" type="button" value="Answer 1"></div>
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Trivia test points  <span id="score" class="badge">0</span></a>
+                </div>
 
-  <div class="col-md-4"><input id="ans-2" class="btn btn-default answer" type="button" value="Answer 2"></div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Difficulty <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a id="easy" href="#">Easy</a></li>
+                                <li class="divider"></li>
+                                <li><a id="timed" href="#">Timed</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Other options <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a id="easy" href="create.html">Create a question</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+        <div class="jumbotron" id="jumbotron">
+            <h1 class="text-center" id="welcome">Hi there BIY!</h1>
+            <p class="text-center" id="question">Please click on "Difficulty" and then on "Timed" (Since I haven't finished the Easy version)</p>
+        </div>
 
-  <div class="col-md-4"><input id="ans-3" class="btn btn-default answer" type="button" value="Answer 3"></div>
+        <div>
+            <div class="answer-container col-md-4"><input id="ans-1" class="btn btn-default answer" type="button" value="Answer 1"></div>
 
-<div class="col-md-offset-4 col-md-5">
-    <div id="pgrbar-lbl" class="progress">
-      <div id="pgrbar1" class="progress-bar progress-bar-success progress-bar-striped active" style="width: 0%">
-        <span class="sr-only"></span>
-      </div>
-      <div id="pgrbar2" class="progress-bar progress-bar-danger progress-bar-striped active" style="width: 0%">
-        <span class="sr-only"></span>
-      </div>
-    </div>
-</div>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+            <div class="answer-container col-md-4"><input id="ans-2" class="btn btn-default answer" type="button" value="Answer 2"></div>
 
-</body>
+            <div class="answer-container col-md-4"><input id="ans-3" class="btn btn-default answer" type="button" value="Answer 3"></div>
+        </div>
+
+        <div class="col-md-offset-4 col-md-5">
+            <div id="pgrbar-lbl" class="progress">
+                <div id="pgrbar1" class="progress-bar progress-bar-success progress-bar-striped active" style="width: 0%">
+                    <span class="sr-only"></span>
+                </div>
+                <div id="pgrbar2" class="progress-bar progress-bar-danger progress-bar-striped active" style="width: 0%">
+                    <span class="sr-only"></span>
+                </div>
+            </div>
+        </div>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="js/bootstrap.min.js"></script>
+
+    </body>
 
 </html>
