@@ -42,8 +42,14 @@ $(document).ready(function() {
                 url: "php/send.php",
                 type: "post",
                 success:function(response){
-                $("#jumbotron").animate({backgroundColor:'lightgreen'},"slow");
-                $("#welcome").html("Now your question is saved, thank you");
+                    if(response.trim().split("♣")[1] == "0"){
+                        $("#jumbotron").animate({backgroundColor:'#EF5350'},"slow");
+                        $("#welcome").html("Sorry, there was an error connecting with the server");
+                    }
+                    else if(response.trim().split("♣")[1] == "1"){
+                        $("#jumbotron").animate({backgroundColor:'lightgreen'},"slow");
+                        $("#welcome").html("Now your question is saved, thank you");
+                    }
                 $("#topic").val("");
                 $("#quest").val("");
                 $("#ans1").val("");

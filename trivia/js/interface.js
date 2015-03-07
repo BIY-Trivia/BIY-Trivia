@@ -58,7 +58,13 @@ $("#pgrbar-lbl").hide();
 //Starts a global clock and score status updates
     var timer = setInterval(function(){timer1()},100);
     var score1 = setInterval(function(){score2()},100);
-
+//When the splash is clicked
+$("#SplashScreen").click(function(){
+    $("#SplashScreen").hide();
+    $("#nav-bar").fadeIn();
+    $("#TriviaGame").fadeIn();
+    play();
+});
 //Print the Topic, Question and Answers into the interface
     function printQuest(){
             quest = numberTaken;
@@ -97,15 +103,10 @@ $("#pgrbar-lbl").hide();
     function tryRandom(){
                 selectquest();
         }
-//Code for the Easy version of the game
-
-    $("#easy").click(function(){
-        
-    });
 
 //Code for the Timed version of the game
 
-    $("#timed").click(function(){
+    function play(){
         function loose(){
              restartPgrs();
              jumbotron.animate({backgroundColor:'#EF5350'},"fast");
@@ -208,5 +209,5 @@ $("#pgrbar-lbl").hide();
                 }
             }
         }
-    });
+    }
 });

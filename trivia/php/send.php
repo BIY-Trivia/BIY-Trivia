@@ -11,13 +11,17 @@ $rightanswer = $_POST["rightanss"];
 $link = mysqli_connect($mysql_servername, $mysql_username, $mysql_password,$mysql_db);
 if (mysqli_connect_errno())
   {
-  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  echo "♣0♣";
   }
+else
+{
+	$stmt = mysqli_prepare($link,"INSERT INTO questions(question, topic, answer1, answer2, answer3, rightanswer) VALUES (?,?,?,?,?,?)");
+	mysqli_stmt_bind_param($stmt, 'ssssss', $quest, $topic, $ans1, $ans2, $ans3, $rightanswer);
+	mysqli_stmt_execute($stmt);
+	mysqli_stmt_close($stmt);
+	echo "♣1♣";
+}
 
-$stmt = mysqli_prepare($link,"INSERT INTO questions(question, topic, answer1, answer2, answer3, rightanswer) VALUES (?,?,?,?,?,?)");
-mysqli_stmt_bind_param($stmt, 'ssssss', $quest, $topic, $ans1, $ans2, $ans3, $rightanswer);
-mysqli_stmt_execute($stmt);
-mysqli_stmt_close($stmt);
 
 mysqli_close($link);
 ?>
