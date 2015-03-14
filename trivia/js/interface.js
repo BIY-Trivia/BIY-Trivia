@@ -109,16 +109,22 @@ $("#SplashScreen").click(function(){
     function play(){
         function loose(){
              restartPgrs();
-             jumbotron.animate({backgroundColor:'#EF5350'},"fast");
+             /*jumbotron.animate({backgroundColor:'#EF5350'},"fast");
              $("#welcome").html("Ooooooh! We are sorry you have lost, maybe the next time");
-             $("#question").html('Hey there, I think you would like to visit <a href="http://www.build-it-yourself.com">Build-It-Yourself</a>');
+             $("#question").html('Hey there, I think you would like to visit <a href="http://www.build-it-yourself.com">Build-It-Yourself</a>');*/
+             $("#nav-bar").hide();
+             $("#TriviaGame").hide();
+             $("#victorySplash").fadeIn();
              startpgr("0");
         }
         function win(){
              restartPgrs();
-             jumbotron.animate({backgroundColor:'lightgreen'},"fast");
+             /*jumbotron.animate({backgroundColor:'lightgreen'},"fast");
              $("#welcome").html('Awesome!! You have won the game!');
-             $("#question").html('Maybe you would like to visit <a href="http://www.build-it-yourself.com">Build-It-Yourself</a>');
+             $("#question").html('Maybe you would like to visit <a href="http://www.build-it-yourself.com">Build-It-Yourself</a>');*/
+             $("#nav-bar").hide();
+             $("#TriviaGame").hide();
+             $("#victorySplash").fadeIn();
              startpgr("0");
          }
         function scoreac(minplus){
