@@ -4,4 +4,3 @@ var TriviaQuestion = function(questionType, question, answers, rightAnswer){
     this.answers = answers;
     this.rightAnswer = rightAnswer;
 };
-

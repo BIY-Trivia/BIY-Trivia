@@ -1,7 +1,9 @@
 var TriviaGame = function() {
 
     this.triviaQuestions = [];
-    this.arrUsedBefore = [];
+    this.nextQuestion = 0;
+
+    this.score = 0;
 
 };
 
@@ -18,9 +20,9 @@ TriviaGame.prototype.Initialize = function() {
             {
                 var res1 = res[x].split("^");
                 self.triviaQuestions.push(new TriviaQuestion(res1[0],
-                                                             res1[1],
-                                                             [res1[2], res1[3], res1[4]], 
-                                                             res1[5]));
+                        res1[1],
+                        [res1[2], res1[3], res1[4]],
+                        res1[5]));
             }
         }
     });
@@ -30,7 +32,7 @@ TriviaGame.prototype.Initialize = function() {
         $("#SplashScreen").hide();
         $("#nav-bar").fadeIn();
         $("#TriviaGame").fadeIn();
-        play();
+        self.Play();
     });
 
 };
@@ -44,164 +46,186 @@ TriviaGame.prototype.StartQuestion = function(index) {
     $("#ans-1").val(quest.answers[0]);
     $("#ans-2").val(quest.answers[1]);
     $("#ans-3").val(quest.answers[2]);
-    
+
 //    arrUsedBefore.push(numberTaken);
 //    lastUsed = numberTaken;
 
 };
 
 TriviaGame.prototype.SelectQuestion = function() {
-    //Randomly select a question from the array
-    numberTaken = (Math.floor((Math.random() * questlength) + 1));
-    if (arrUsedBefore.length - 1 == questlength) {
-        restartUsed();
-    }
-    for (var x = 0; x <= arrUsedBefore.length - 1; x++) {
-        if (numberTaken == arrUsedBefore[x] || numberTaken == lastUsed)
-        {
-            wasUsed++;
-        }
-    }
-    if (wasUsed > 0) {
-        wasUsed = 0;
-        tryRandom();
-    }
-    else {
-        wasUsed = 0;
-        printQuest();
-    }
+    // If the last question used was the last in the array, re-shuffle the questions and start again at the beginning
+    if (this.nextQuestion === this.triviaQuestions.length){
+        shuffle(this.triviaQuestions);
+        this.nextQuestion = 0;
+    };
 
+    // Print the next question and increment counter
+    this.PrintQuestion(this.triviaQuestions[this.nextQuestion]);
+    this.nextQuestion++;
+
+};
+
+TriviaGame.prototype.PrintQuestion = function(question) {
+    $("#welcome").html("Topic - " + question.type);
+    $("#question").html(question.question);
+    $("#ans-1").val(question.answers[0]);
+    $("#ans-2").val(question.answers[1]);
+    $("#ans-3").val(question.answers[2]);
 };
 
 TriviaGame.prototype.Play = function() {
+    var self = this;
+    
     // Reset state
-    this.arrUsedBefore = [];
-    shuffle(this.triviaQuestions);
-    
+    self.nextQuestion = 0;
+    shuffle(self.triviaQuestions);
+
     //Begin the game
-    DoCountdown();
-    
-    $('.answer').click(function(){
-                checkAnswer($(this).val());
-            });
-    
+    self.DoCountdown();
+
+    $('.answer').click(function() {
+        self.CheckAnswer($(this).val());
+    });
+
 };
 
 TriviaGame.prototype.Lose = function() {
-    restartPgrs();
+    this.RestartProgressBar();
     /*jumbotron.animate({backgroundColor:'#EF5350'},"fast");
      $("#welcome").html("Ooooooh! We are sorry you have lost, maybe the next time");
      $("#question").html('Hey there, I think you would like to visit <a href="http://www.build-it-yourself.com">Build-It-Yourself</a>');*/
     $("#nav-bar").hide();
     $("#TriviaGame").hide();
     $("#victorySplash").fadeIn();
-    startpgr("0");
+    this.StartProgressBar("0");
 };
 
 TriviaGame.prototype.Win = function() {
-    restartPgrs();
-             /*jumbotron.animate({backgroundColor:'lightgreen'},"fast");
-             $("#welcome").html('Awesome!! You have won the game!');
-             $("#question").html('Maybe you would like to visit <a href="http://www.build-it-yourself.com">Build-It-Yourself</a>');*/
-             $("#nav-bar").hide();
-             $("#TriviaGame").hide();
-             $("#victorySplash").fadeIn();
-             startpgr("0");
-    
+    this.RestartProgressBar();
+    /*jumbotron.animate({backgroundColor:'lightgreen'},"fast");
+     $("#welcome").html('Awesome!! You have won the game!');
+     $("#question").html('Maybe you would like to visit <a href="http://www.build-it-yourself.com">Build-It-Yourself</a>');*/
+    $("#nav-bar").hide();
+    $("#TriviaGame").hide();
+    $("#victorySplash").fadeIn();
+    this.StartProgressBar("0");
+
 };
 
 TriviaGame.prototype.DoCountdown = function() {
-    var jumbotron=$("#jumbotron");
-    
+    var self = this;
+    var jumbotron = $("#jumbotron");
+
     //Count down at the beggining of the game begins
-        var outcount = 5;
-        $("#welcome").html("The game starts in "+outcount);
-        jumbotron.animate({backgroundColor:'#4DB6AC'},"fast");
-        var ttimer = setInterval(function(){
-            if(outcount !== 1)
-            {
-                outcount--;
-                if(outcount === 4){
-                    jumbotron.animate({backgroundColor:'#9CCC65'},"fast");
-                }else if(outcount === 3){
-                    jumbotron.animate({backgroundColor:'#FFCC80'},"fast");
-                }else if(outcount === 2){
-                    jumbotron.animate({backgroundColor:'#9FA8DA'},"fast");
-                }else{
-                    jumbotron.animate({backgroundColor:'#90A4AE'},"fast");
-                }
-                $("#welcome").html("The game starts in "+outcount);
+    var outcount = 5;
+    $("#welcome").html("The game starts in " + outcount);
+    jumbotron.animate({backgroundColor: '#4DB6AC'}, "fast");
+    var ttimer = setInterval(function() {
+        if (outcount !== 1)
+        {
+            outcount--;
+            if (outcount === 4) {
+                jumbotron.animate({backgroundColor: '#9CCC65'}, "fast");
+            } else if (outcount === 3) {
+                jumbotron.animate({backgroundColor: '#FFCC80'}, "fast");
+            } else if (outcount === 2) {
+                jumbotron.animate({backgroundColor: '#9FA8DA'}, "fast");
+            } else {
+                jumbotron.animate({backgroundColor: '#90A4AE'}, "fast");
             }
-            else{
-                jumbotron.animate({backgroundColor:'#E0E0E0'},"fast");
-                clearInterval(ttimer);
-                startpgr("1");
-                selectquest();
+            $("#welcome").html("The game starts in " + outcount);
+        }
+        else {
+            jumbotron.animate({backgroundColor: '#E0E0E0'}, "fast");
+            clearInterval(ttimer);
+            self.StartProgressBar("1");
+            self.SelectQuestion();
+        }
+    }, 1000);
+};
+
+TriviaGame.prototype.CheckAnswer = function(ans) {
+    var jumbotron = $("#jumbotron");
+    if (ans === this.triviaQuestions[this.nextQuestion - 1].rightAnswer)
+    {
+        jumbotron.animate({backgroundColor: 'lightgreen'}, "fast");
+        jumbotron.animate({backgroundColor: '#E0E0E0'}, "fast");
+        this.AdjustScore(1);
+    }
+    else {
+        jumbotron.animate({backgroundColor: '#EF5350'}, "fast");
+        jumbotron.animate({backgroundColor: '#E0E0E0'}, "fast");
+        this.AdjustScore(-1);
+    }
+};
+
+TriviaGame.prototype.AdjustScore = function(minplus) {
+    var self = this;
+    if (self.score + minplus < -5)
+    {
+        self.Lose();
+    }
+    else if (self.score + minplus > 10)
+    {
+        self.Win();
+    }
+    else {
+        self.score = self.score + minplus;
+        $("#score").html(this.score);
+        self.SelectQuestion();
+        self.StartProgressBar("1");
+    }
+};
+
+TriviaGame.prototype.StartProgressBar = function() {
+    var self = this;
+    var pgr = 0;
+    var timin = 0;
+    var startTime = Date.now();
+    var answerTime = 10000;
+    var limit = startTime + answerTime;
+    $("#pgrbar-lbl").fadeIn();
+    $("#pgrbar1").css("width", pgr + "%");
+    $("#pgrbar2").css("width", pgr + "%");
+    var ttimer1 = setInterval(function() {
+        var nowSeconds = Date.now();
+        if (limit >= nowSeconds) {
+            var pgrPerc = ((answerTime - (limit - nowSeconds)) * 100) / answerTime;
+            if (pgrPerc < 60) {
+                $("#pgrbar1").css("width", pgrPerc + "%");
             }
-        },1000);    
+            else {
+                $("#pgrbar2").css("width", (pgrPerc - 56) + "%");
+            }
+        } else {
+            clearInterval(ttimer1);
+            self.RestartProgressBar();
+            self.CheckAnswer("[]76/'.;.'2.1';.21';4.3'2./4';1.241'/.4';2.");
+        }
+    }, 100);
+
 };
 
-TriviaGame.prototype.CheckAnswer = function(){
-                if(ans == arrRightAns[quest])
-                {
-                    jumbotron.animate({backgroundColor:'lightgreen'},"fast");
-                    jumbotron.animate({backgroundColor:'#E0E0E0'},"fast");
-                    scoreac(1);
-                }
-            else{
-                    jumbotron.animate({backgroundColor:'#EF5350'},"fast");
-                    jumbotron.animate({backgroundColor:'#E0E0E0'},"fast");
-                    scoreac(-1);
-                }
-};
-
-TriviaGame.prototype.startpgr = function(){
-            var pgr = 0;
-            var timin = 0;
-            var startTime = Date.now();
-            var answerTime = 10;
-            var limit = starttime.getSeconds() + answerTime;
-            $("#pgrbar-lbl").fadeIn();
-            $("#pgrbar1").css("width",pgr+"%");
-            $("#pgrbar2").css("width",pgr+"%");
-            var ttimer1 = setInterval(function(){
-                var nowSeconds = Date.now().getSeconds();
-                if(limit >= nowSeconds){
-                    var pgrPerc = ((answerTime-(limit-nowSeconds))*100)/answerTime;
-                    if(pgrPerc < 60){
-                        $("#pgrbar1").css("width",pgrPerc+"%");
-                    }
-                    else{
-                        $("#pgrbar2").css("width",(pgrPerc-56)+"%");
-                    }
-                } else {
-                    clearInterval(ttimer1);
-                    restartPgrs();
-                    checkAnswer("[]76/'.;.'2.1';.21';4.3'2./4';1.241'/.4';2.");
-                }},100);
-  
-};
-
-TriviaGame.prototype.restartPgrs = function(){
-        $("#pgrbar1").css("width","0%");
-        $("#pgrbar2").css("width","0%");    
+TriviaGame.prototype.RestartProgressBar = function() {
+    $("#pgrbar1").css("width", "0%");
+    $("#pgrbar2").css("width", "0%");
 };
 
 function shuffle(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex ;
+    var currentIndex = array.length, temporaryValue, randomIndex;
 
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
 
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
 
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
 
-  return array;
+    return array;
 }
