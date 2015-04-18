@@ -6,16 +6,7 @@ var TriviaGame = function() {
     this.score = 0;
 
     this.progressbar = new ProgressBar.Line('#pgrbar-lbl', {color: '#6FD57F'});
-    this.time = 0;
-    var that = this;
-    this.timerIntervalID = setInterval(function() {
-        that.timer1();
-    }, 100);
 
-};
-
-TriviaGame.prototype.timer1 = function() {
-    this.time = this.time + 0.1;
 };
 
 TriviaGame.prototype.Initialize = function() {
@@ -102,25 +93,15 @@ TriviaGame.prototype.Play = function() {
 };
 
 TriviaGame.prototype.Lose = function() {
-    //this.RestartProgressBar();
-    /*jumbotron.animate({backgroundColor:'#EF5350'},"fast");
-     $("#welcome").html("Ooooooh! We are sorry you have lost, maybe the next time");
-     $("#question").html('Hey there, I think you would like to visit <a href="http://www.build-it-yourself.com">Build-It-Yourself</a>');*/
     $("#nav-bar").hide();
     $("#TriviaGame").hide();
     $("#failureSplash").fadeIn();
-    //this.StartProgressBar("0");
 };
 
 TriviaGame.prototype.Win = function() {
-    //this.RestartProgressBar();
-    /*jumbotron.animate({backgroundColor:'lightgreen'},"fast");
-     $("#welcome").html('Awesome!! You have won the game!');
-     $("#question").html('Maybe you would like to visit <a href="http://www.build-it-yourself.com">Build-It-Yourself</a>');*/
     $("#nav-bar").hide();
     $("#TriviaGame").hide();
     $("#victorySplash").fadeIn();
-    //this.StartProgressBar("0");
 
 };
 
@@ -199,11 +180,6 @@ TriviaGame.prototype.StartProgressBar = function() {
                             self.progressbar.set(0);
                             self.CheckAnswer("[]76/'.;.'2.1';.21';4.3'2./4';1.241'/.4';2.");
                         });
-};
-
-TriviaGame.prototype.RestartProgressBar = function() {
-    $("#pgrbar1").css("width", "0%");
-    $("#pgrbar2").css("width", "0%");
 };
 
 function shuffle(array) {
