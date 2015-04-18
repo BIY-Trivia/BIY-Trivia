@@ -22,10 +22,10 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.3.1/less.min.js"></script>
 
         <script src="js/jquerycolor.js"></script>
-
+        <script src="js/progressbar.min.js"></script>
         <script src="js/TriviaQuestion.js"></script>
         <script src="js/TriviaGame.js"></script>
-        
+
         <!--<script src="js/interface.js"></script>-->
 
     </head>
@@ -57,22 +57,30 @@
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
         </nav>
-        <div id="SplashScreen" style="cursor:pointer;" class="col-md-offset-4 col-xs-offset-4 col-xs-3 col-md-3">
+        <div id="SplashScreen" class="biy-splash">
             <h1>BIY Trivia</h1>
-            <img src="images/question-mark.png">
+            <img id="splash-icon" src="images/question-mark.png">
+            <p>Click to Start!</p>
         </div>
-        <div id="victorySplash">
-
+        <div id="victorySplash" class="biy-splash" style="display:none;">
+            <h1>You Win!</h1>
+            <img src="images/anim-bird-nerd-200.gif">
+            <p>Visit <a href="http://www.build-it-yourself.com">Build-It-Yourself</a></p>
+        </div>
+        <div id="failureSplash" class="biy-splash" style="display:none;">
+            <h1>You Lose!</h1>
+            <img src="images/anim-bird-nerd-200.gif">
+            <p>Visit <a href="http://www.build-it-yourself.com">Build-It-Yourself</a></p>
         </div>
         <div id="TriviaGame" style="display:none;">
-        	<div class="image-container col-sm-4">  
-        		<img src="images/anim-bird-nerd-200.gif">
-        	</div>
+            <div class="image-container col-sm-4">  
+                <img src="images/anim-bird-nerd-200.gif">
+            </div>
             <div class="question-container col-sm-8" id="jumbotron">
                 <div class="question-wrapper">
-                <h1 class="text-center" id="welcome">Hi there BIY!</h1>
+                    <h1 class="text-center" id="welcome">Hi there BIY!</h1>
 
-            <p class="text-center" id="question">Please click on "Difficulty" and then on "Timed" (Since I haven't finished the Easy version)</p>
+                    <p class="text-center" id="question">Please click on "Difficulty" and then on "Timed" (Since I haven't finished the Easy version)</p>
                 </div>
             </div>
 
@@ -83,17 +91,18 @@
 
                 <div class="answer-container col-md-4"><input id="ans-3" class="btn btn-default answer" type="button" value="Answer 3"></div>
             </div>
-        </div>
-        <div class="col-md-offset-4 col-md-5">
-            <div id="pgrbar-lbl" class="progress">
-                <div id="pgrbar1" class="progress-bar progress-bar-success progress-bar-striped active" style="width: 0%">
-                    <span class="sr-only"></span>
-                </div>
-                <div id="pgrbar2" class="progress-bar progress-bar-danger progress-bar-striped active" style="width: 0%">
-                    <span class="sr-only"></span>
+            <div class="col-md-offset-4 col-md-5">
+                <div id="pgrbar-lbl" class="progress">
+                    <div id="pgrbar1" class="progress-bar progress-bar-success progress-bar-striped active" style="width: 0%">
+                        <span class="sr-only"></span>
+                    </div>
+                    <div id="pgrbar2" class="progress-bar progress-bar-danger progress-bar-striped active" style="width: 0%">
+                        <span class="sr-only"></span>
+                    </div>
                 </div>
             </div>
         </div>
+
         <!-- Bootstrap Core JavaScript -->
         <script src="js/bootstrap.min.js"></script>
 
@@ -101,7 +110,7 @@
             var game = new TriviaGame();
             game.Initialize();
         </script>
-        
+
     </body>
 
 </html>

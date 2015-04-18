@@ -6,12 +6,22 @@
     color: white;
 }
 
+#TriviaGame {
+    .image-container {
+        text-align: center;
+    }
+
+}
 .question-container {
     display:table;
     height:200px;
+    padding-left: 50px;
+    padding-right: 50px;
+    
     
     .question-wrapper{
         display:table-cell;
+        border-radius: 10px;
         vertical-align:middle;
     }
 }
@@ -22,6 +32,7 @@
 
 .answer-container {
     text-align:center;
+    margin-top:30px;
 
     &:nth-child(1) .answer {
         background-color:green;
@@ -35,6 +46,27 @@
 		background-color:yellow;
     }
 }
-#SplashScreen{
+
+.biy-splash {
+    margin-top:100px;
+    text-align:center;
 }
 
+#SplashScreen{
+    cursor: pointer;
+    
+    p {
+        margin-top:10px;
+        font-size:20px;
+    }
+    
+}
+
+#splash-icon {
+    height:200px;
+}
+
+#pgrbar-lbl {
+    background-color: #fff;
+    margin-top:20px;
+}
