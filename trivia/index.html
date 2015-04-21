@@ -24,6 +24,7 @@
         <script src="js/jquerycolor.js"></script>
         <script src="js/progressbar.min.js"></script>
         <script src="js/TriviaQuestion.js"></script>
+        <script src="js/TriviaDataServiceHardcoded.js"></script>
         <script src="js/TriviaGame.js"></script>
 
         <!--<script src="js/interface.js"></script>-->
@@ -31,32 +32,6 @@
     </head>
 
     <body>
-        <nav style="display:none;" class="navbar navbar-default" id="nav-bar">
-            <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">Trivia test points  <span id="score" class="badge">0</span></a>
-                </div>
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Other options <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a id="easy" href="create.html">Create a question</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div><!-- /.navbar-collapse -->
-            </div><!-- /.container-fluid -->
-        </nav>
         <div id="SplashScreen" class="biy-splash">
             <h1>BIY Trivia</h1>
             <img id="splash-icon" src="images/question-mark.png">
@@ -73,6 +48,9 @@
             <p>Visit <a href="http://www.build-it-yourself.com">Build-It-Yourself</a></p>
         </div>
         <div id="TriviaGame" style="display:none;">
+            <div class="biy-scoreboard col-sm-8 col-sm-push-4">
+                Score: <span id="score">0</span> / 5
+            </div>
             <div class="image-container col-sm-4">  
                 <img src="images/anim-bird-nerd-200.gif">
             </div>
@@ -107,7 +85,7 @@
         <script src="js/bootstrap.min.js"></script>
 
         <script>
-            var game = new TriviaGame();
+            var game = new TriviaGame(new TriviaDataServiceHardcoded());
             game.Initialize();
         </script>
 

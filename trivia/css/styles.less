@@ -1,72 +1,83 @@
 .answer{
-    width:80%;
-    margin-left:auto; 
-    margin-right:auto;
-    background-color:red;
+    width: 80%;
+    margin-left: auto; 
+    margin-right: auto;
+    background-color: red;
     color: white;
 }
 
 #TriviaGame {
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+
+    .biy-scoreboard {
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
     .image-container {
         text-align: center;
+        clear: both;
     }
 
 }
 .question-container {
-    display:table;
-    height:200px;
+    display: table;
+    height: 200px;
     padding-left: 50px;
     padding-right: 50px;
-    
-    
+
+
     .question-wrapper{
-        display:table-cell;
+        display: table-cell;
         border-radius: 10px;
-        vertical-align:middle;
+        vertical-align: middle;
     }
 }
 
 .answers-container {
-    clear:both;
+    clear: both;
 }
 
 .answer-container {
-    text-align:center;
-    margin-top:30px;
+    text-align: center;
+    margin-top: 30px;
 
     &:nth-child(1) .answer {
-        background-color:green;
+        background-color: green;
     }
 
     &:nth-child(2) .answer {
-        background-color:blue;
-	}
-	
-	.answer:hover{
-		background-color:yellow;
+        background-color: blue;
+    }
+
+    .answer:hover{
+        background-color: yellow;
     }
 }
 
 .biy-splash {
-    margin-top:100px;
-    text-align:center;
+    margin-top: 100px;
+    text-align: center;
 }
 
 #SplashScreen{
     cursor: pointer;
-    
+
     p {
-        margin-top:10px;
-        font-size:20px;
+        margin-top: 10px;
+        font-size: 20px;
     }
-    
+
 }
 
 #splash-icon {
-    height:200px;
+    height: 200px;
 }
 
 #pgrbar-lbl {
     background-color: #fff;
-    margin-top:20px;
+    margin-top: 20px;
 }

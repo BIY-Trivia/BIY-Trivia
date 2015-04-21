@@ -1,6 +1,5 @@
-var TriviaGame = function() {
-
-    this.triviaQuestions = [];
+var TriviaGame = function(dataService) {
+    this.triviaQuestions = dataService.GetQuestions();
     this.nextQuestion = 0;
 
     this.score = 0;
@@ -12,22 +11,24 @@ var TriviaGame = function() {
 TriviaGame.prototype.Initialize = function() {
     // Retrieve question data from the database
     var self = this;
-    $.ajax({
-        url: "php/quest.php",
-        type: "post",
-        success: function(response) {
-            var res = response.trim().split("|");
-            //questlength = res.length - 1;
-            for (var x = 0; x < res.length - 1; x++)
-            {
-                var res1 = res[x].split("^");
-                self.triviaQuestions.push(new TriviaQuestion(res1[0],
-                        res1[1],
-                        [res1[2], res1[3], res1[4]],
-                        res1[5]));
-            }
-        }
-    });
+    
+    //self.triviaQuestions = self.dataService.GetQuestions();
+//    $.ajax({
+//        url: "php/quest.php",
+//        type: "post",
+//        success: function(response) {
+//            var res = response.trim().split("|");
+//            //questlength = res.length - 1;
+//            for (var x = 0; x < res.length - 1; x++)
+//            {
+//                var res1 = res[x].split("^");
+//                self.triviaQuestions.push(new TriviaQuestion(res1[0],
+//                        res1[1],
+//                        [res1[2], res1[3], res1[4]],
+//                        res1[5]));
+//            }
+//        }
+//    });
 
     //When the splash is clicked
     $("#SplashScreen").click(function() {
