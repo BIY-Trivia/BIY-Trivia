@@ -10,8 +10,6 @@ var TriviaGame = function(dataService) {
         step: function(state, circle, attachment) {
             circle.path.setAttribute('stroke', state.color);
         }});
-        
-    
     };
 
 TriviaGame.prototype.UpdateScoreboard = function() {
@@ -19,7 +17,6 @@ TriviaGame.prototype.UpdateScoreboard = function() {
 }
 
 TriviaGame.prototype.Initialize = function() {
-    // Retrieve question data from the database
     var self = this;
 
     $('.answer').click(function() {
@@ -72,7 +69,6 @@ TriviaGame.prototype.SelectQuestion = function() {
         shuffle(this.triviaQuestions);
         this.nextQuestion = 0;
     }
-    ;
 
     // Print the next question and increment counter
     this.PrintQuestion(this.triviaQuestions[this.nextQuestion]);
@@ -87,8 +83,6 @@ TriviaGame.prototype.PrintQuestion = function(question) {
     $("#ans-2").val(question.answers[1]);
     $("#ans-3").val(question.answers[2]);
 };
-
-
 
 TriviaGame.prototype.Lose = function() {
     this.progressbar.stop();
