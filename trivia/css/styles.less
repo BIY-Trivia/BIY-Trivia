@@ -1,56 +1,186 @@
 .answer{
-    width: 80%;
-    margin-left: auto; 
-    margin-right: auto;
+    width: 100%;
+//    margin-left: auto; 
+//    margin-right: auto;
     background-color: red;
     color: white;
+    
+    &:focus {
+        background-color: red;
+        color: white;
+    }
+    
 }
+
 
 #TriviaGame {
     width: 800px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 50px;
+    padding-right: 115px;
+    position: relative;
+    left: -20px;
 
     .biy-scoreboard {
         margin-bottom: 10px;
         text-align: center;
+        padding-top: 63px;
+        font-family: 'Alegreya Sans SC', sans-serif;
+        font-size: 30px;
+    }
+
+    @media(max-width: 768px){
+        .biy-scoreboard {
+            padding-top: 0;
+            
+            p {
+                display: inline;
+            }
+        }
     }
 
     .image-container {
         text-align: center;
         clear: both;
     }
+    
+    @media(max-width: 768px){
+        .image-container {
+            display: none;
+        }
+    }
 
 }
-.question-container {
-    display: table;
-    height: 200px;
-    padding-left: 50px;
-    padding-right: 50px;
 
-
-    .question-wrapper{
-        display: table-cell;
-        border-radius: 10px;
-        vertical-align: middle;
+@media(max-width: 768px){
+    #TriviaGame {
+        width: auto;
+        margin-top: 10px;
+        padding-right: 0;
+        left: 0;
+        text-align: center;
     }
 }
 
+//@media(max-width:992px) {
+//    #TriviaGame {
+//        width: 
+//    }
+//}
+
+.question-container {
+    display: table;
+    height: 220px;
+    padding-left: 0;
+    padding-right: 0;
+
+    .question-wrapper{
+        background-image: url(../images/speech-bubble-center.png);
+        display: table-cell;
+        border-radius: 10px;
+        padding-top: 30px;
+        
+        h1 {
+            font-size: 32px;
+        }
+        
+        &::before{
+            background-image: url(../images/speech-bubble-left.png);
+            content: " ";
+            height: 100%;
+            position: absolute;
+            width: 166px;
+            left: -166px;
+            top: 0;
+        }
+        
+        &::after{
+            background-image: url(../images/speech-bubble-right.png);
+            content: " ";
+            height: 100%;
+            width: 166px;
+            position: absolute;
+            top: 0px;
+            right: -166px;
+        }
+        
+    }
+    
+    @media(max-width:768px){
+        .question-wrapper {
+            background-image: none;
+            border: 5px solid black;
+            padding-top: 0;
+            padding-left: 30px;
+            padding-right: 30px;
+            
+            &::before{
+                background-image: none;
+                width: 0;
+            }
+            &::after{
+                background-image: none;
+                width: 0;
+            }
+        }
+    }
+    
+}
+
+@media(max-width:768px){
+    .question-container {
+        display: inline-block;
+        border-radius: 10px;
+        height: auto;
+    }
+}
+
+#question {
+    font-size: 16px;
+}
+
 .answers-container {
-    clear: both;
+    padding: 0;
+}
+
+@media(max-width: 768px){
+    .answers-container {
+        margin-left: 30px;
+        margin-right: 30px;
+        margin-top: 15px;
+    }
+    
 }
 
 .answer-container {
     text-align: center;
-    margin-top: 30px;
+    margin-top: 15px;
+    padding: 0;
+
+
+    .answer {
+        width: 100%;
+    }
+
+    &:first-child {
+        margin-top: 0;
+    }
 
     &:nth-child(1) .answer {
         background-color: green;
+        
+        &:focus {
+            background-color: green;
+        }
     }
 
     &:nth-child(2) .answer {
         background-color: blue;
+        
+        &:focus {
+            background-color: blue;
+        }
     }
 
     .answer:hover{
@@ -80,4 +210,6 @@
 #pgrbar-lbl {
     background-color: #fff;
     margin-top: 20px;
+    float: left;
+    width: 100%;
 }

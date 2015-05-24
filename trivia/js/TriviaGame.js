@@ -1,34 +1,20 @@
 var TriviaGame = function(dataService) {
     this.triviaQuestions = dataService.GetQuestions();
     this.nextQuestion = 0;
-
     this.score = 0;
-
-    this.progressbar = new ProgressBar.Line('#pgrbar-lbl', {color: '#6FD57F'});
-
-};
+    this.progressbar = new ProgressBar.Line('#pgrbar-lbl', 
+        {color: '#6FD57F',
+        strokeWidth: 30,
+        from: { color: '#6FD57F' },
+        to: { color: '#FF0000' },
+        step: function(state, circle, attachment) {
+            circle.path.setAttribute('stroke', state.color);
+        }});
+    };
 
 TriviaGame.prototype.Initialize = function() {
     // Retrieve question data from the database
     var self = this;
-    
-    //self.triviaQuestions = self.dataService.GetQuestions();
-//    $.ajax({
-//        url: "php/quest.php",
-//        type: "post",
-//        success: function(response) {
-//            var res = response.trim().split("|");
-//            //questlength = res.length - 1;
-//            for (var x = 0; x < res.length - 1; x++)
-//            {
-//                var res1 = res[x].split("^");
-//                self.triviaQuestions.push(new TriviaQuestion(res1[0],
-//                        res1[1],
-//                        [res1[2], res1[3], res1[4]],
-//                        res1[5]));
-//            }
-//        }
-//    });
 
     //When the splash is clicked
     $("#SplashScreen").click(function() {
@@ -40,8 +26,28 @@ TriviaGame.prototype.Initialize = function() {
 
 };
 
-TriviaGame.prototype.StartQuestion = function(index) {
+TriviaGame.prototype.Play = function() {
+    var self = this;
 
+    // Reset state
+    self.nextQuestion = 0;
+    self.score = 0;
+    shuffle(self.triviaQuestions);
+
+    //Begin the game
+    self.DoCountdown(function(){
+        $('.answers-container').show();
+        self.StartProgressBar("1");
+        self.SelectQuestion();
+    });
+
+    $('.answer').click(function() {
+        self.CheckAnswer($(this).val());
+    });
+
+};
+
+TriviaGame.prototype.StartQuestion = function(index) {
     //Print the Topic, Question and Answers into the interface
     var quest = this.triviaQuestions[index];
     $("#welcome").html("Topic - " + quest.type);
@@ -49,10 +55,6 @@ TriviaGame.prototype.StartQuestion = function(index) {
     $("#ans-1").val(quest.answers[0]);
     $("#ans-2").val(quest.answers[1]);
     $("#ans-3").val(quest.answers[2]);
-
-//    arrUsedBefore.push(numberTaken);
-//    lastUsed = numberTaken;
-
 };
 
 TriviaGame.prototype.SelectQuestion = function() {
@@ -77,21 +79,7 @@ TriviaGame.prototype.PrintQuestion = function(question) {
     $("#ans-3").val(question.answers[2]);
 };
 
-TriviaGame.prototype.Play = function() {
-    var self = this;
 
-    // Reset state
-    self.nextQuestion = 0;
-    shuffle(self.triviaQuestions);
-
-    //Begin the game
-    self.DoCountdown();
-
-    $('.answer').click(function() {
-        self.CheckAnswer($(this).val());
-    });
-
-};
 
 TriviaGame.prototype.Lose = function() {
     $("#nav-bar").hide();
@@ -106,36 +94,23 @@ TriviaGame.prototype.Win = function() {
 
 };
 
-TriviaGame.prototype.DoCountdown = function() {
+TriviaGame.prototype.DoCountdown = function(callback) {
     var self = this;
-    var jumbotron = $("#jumbotron .question-wrapper");
+    //var jumbotron = $("#jumbotron .question-wrapper");
     $('.answers-container').hide();
     
     //Count down at the beggining of the game begins
     var outcount = 5;
-    $("#welcome").html("The game starts in " + outcount);
-    jumbotron.animate({backgroundColor: '#4DB6AC'}, "fast");
+    $("#welcome").html("The Game Starts In... " + outcount);
     var ttimer = setInterval(function() {
         if (outcount !== 1)
         {
             outcount--;
-            if (outcount === 4) {
-                jumbotron.animate({backgroundColor: '#9CCC65'}, "fast");
-            } else if (outcount === 3) {
-                jumbotron.animate({backgroundColor: '#FFCC80'}, "fast");
-            } else if (outcount === 2) {
-                jumbotron.animate({backgroundColor: '#9FA8DA'}, "fast");
-            } else {
-                jumbotron.animate({backgroundColor: '#90A4AE'}, "fast");
-            }
-            $("#welcome").html("The game starts in " + outcount);
+            $("#welcome").html("The Game Starts In... " + outcount);
         }
         else {
-            jumbotron.animate({backgroundColor: '#E0E0E0'}, "fast");
-            $('.answers-container').show();
             clearInterval(ttimer);
-            self.StartProgressBar("1");
-            self.SelectQuestion();
+            callback();
         }
     }, 1000);
 };
@@ -144,24 +119,20 @@ TriviaGame.prototype.CheckAnswer = function(ans) {
     var animateBackground = $("#jumbotron .question-wrapper");
     if (ans === this.triviaQuestions[this.nextQuestion - 1].rightAnswer)
     {
-        animateBackground.animate({backgroundColor: 'lightgreen'}, "fast");
-        animateBackground.animate({backgroundColor: '#E0E0E0'}, "fast");
         this.AdjustScore(1);
     }
     else {
-        animateBackground.animate({backgroundColor: '#EF5350'}, "fast");
-        animateBackground.animate({backgroundColor: '#E0E0E0'}, "fast");
         this.AdjustScore(-1);
     }
 };
 
 TriviaGame.prototype.AdjustScore = function(minplus) {
     var self = this;
-    if (self.score + minplus < -5)
+    if (self.score + minplus <= -5)
     {
         self.Lose();
     }
-    else if (self.score + minplus > 10)
+    else if (self.score + minplus >= 5)
     {
         self.Win();
     }

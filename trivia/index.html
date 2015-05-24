@@ -11,6 +11,8 @@
 
         <title>BIY Trivia</title>
 
+        <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans+SC:900italic' rel='stylesheet' type='text/css'>
+
         <!-- Bootstrap Core CSS -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -41,43 +43,37 @@
             <h1>You Win!</h1>
             <img src="images/anim-bird-nerd-200.gif">
             <p>Visit <a href="http://www.build-it-yourself.com">Build-It-Yourself</a></p>
+                <p>or <a href="#" id="retry">Play Again</a></p>
         </div>
         <div id="failureSplash" class="biy-splash" style="display:none;">
             <h1>You Lose!</h1>
             <img src="images/anim-bird-nerd-200.gif">
             <p>Visit <a href="http://www.build-it-yourself.com">Build-It-Yourself</a></p>
+                <p>or <a href="#" id="retry">Retry</a></p>
         </div>
         <div id="TriviaGame" style="display:none;">
-            <div class="biy-scoreboard col-sm-8 col-sm-push-4">
-                Score: <span id="score">0</span> / 5
+            <div class="biy-scoreboard col-sm-4">
+                Score: <p><span id="score">0</span> / 5</p>
+            </div>
+            
+            <div class="question-container col-sm-5 col-sm-offset-2" id="jumbotron">
+                <div class="question-wrapper">
+                    <h1 class="text-center" id="welcome"></h1>
+
+                    <p class="text-center" id="question">Get Ready!</p>
+                </div>
             </div>
             <div class="image-container col-sm-4">  
                 <img src="images/anim-bird-nerd-200.gif">
             </div>
-            <div class="question-container col-sm-8" id="jumbotron">
-                <div class="question-wrapper">
-                    <h1 class="text-center" id="welcome">Hi there BIY!</h1>
+            <div class="answers-container col-sm-5 col-sm-offset-2">
+                <div class="answer-container col-sm-12"><input id="ans-1" class="btn btn-default answer" type="button" value="Answer 1"></div>
 
-                    <p class="text-center" id="question">Please click on "Difficulty" and then on "Timed" (Since I haven't finished the Easy version)</p>
-                </div>
-            </div>
+                <div class="answer-container col-sm-12"><input id="ans-2" class="btn btn-default answer" type="button" value="Answer 2"></div>
 
-            <div class="row answers-container">
-                <div class="answer-container col-md-4"><input id="ans-1" class="btn btn-default answer" type="button" value="Answer 1"></div>
-
-                <div class="answer-container col-md-4"><input id="ans-2" class="btn btn-default answer" type="button" value="Answer 2"></div>
-
-                <div class="answer-container col-md-4"><input id="ans-3" class="btn btn-default answer" type="button" value="Answer 3"></div>
-            </div>
-            <div class="col-md-offset-4 col-md-5">
-                <div id="pgrbar-lbl" class="progress">
-                    <div id="pgrbar1" class="progress-bar progress-bar-success progress-bar-striped active" style="width: 0%">
-                        <span class="sr-only"></span>
-                    </div>
-                    <div id="pgrbar2" class="progress-bar progress-bar-danger progress-bar-striped active" style="width: 0%">
-                        <span class="sr-only"></span>
-                    </div>
-                </div>
+                <div class="answer-container col-sm-12"><input id="ans-3" class="btn btn-default answer" type="button" value="Answer 3"></div>
+            
+                <div id="pgrbar-lbl" class="progress"></div>
             </div>
         </div>
 
