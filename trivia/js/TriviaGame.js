@@ -10,11 +10,21 @@ var TriviaGame = function(dataService) {
         step: function(state, circle, attachment) {
             circle.path.setAttribute('stroke', state.color);
         }});
+        
+    
     };
+
+TriviaGame.prototype.UpdateScoreboard = function() {
+    $("#score").html(this.score);
+}
 
 TriviaGame.prototype.Initialize = function() {
     // Retrieve question data from the database
     var self = this;
+
+    $('.answer').click(function() {
+        self.CheckAnswer($(this).val());
+    });
 
     //When the splash is clicked
     $("#SplashScreen").click(function() {
@@ -32,17 +42,16 @@ TriviaGame.prototype.Play = function() {
     // Reset state
     self.nextQuestion = 0;
     self.score = 0;
+    self.UpdateScoreboard();
     shuffle(self.triviaQuestions);
+    $('.biy-splash').hide();
+    $('#TriviaGame').show();
 
     //Begin the game
     self.DoCountdown(function(){
         $('.answers-container').show();
         self.StartProgressBar("1");
         self.SelectQuestion();
-    });
-
-    $('.answer').click(function() {
-        self.CheckAnswer($(this).val());
     });
 
 };
@@ -82,12 +91,14 @@ TriviaGame.prototype.PrintQuestion = function(question) {
 
 
 TriviaGame.prototype.Lose = function() {
+    this.progressbar.stop();
     $("#nav-bar").hide();
     $("#TriviaGame").hide();
     $("#failureSplash").fadeIn();
 };
 
 TriviaGame.prototype.Win = function() {
+    this.progressbar.stop();
     $("#nav-bar").hide();
     $("#TriviaGame").hide();
     $("#victorySplash").fadeIn();
@@ -96,17 +107,17 @@ TriviaGame.prototype.Win = function() {
 
 TriviaGame.prototype.DoCountdown = function(callback) {
     var self = this;
-    //var jumbotron = $("#jumbotron .question-wrapper");
     $('.answers-container').hide();
     
     //Count down at the beggining of the game begins
     var outcount = 5;
-    $("#welcome").html("The Game Starts In... " + outcount);
+    $('#welcome').html("The Game Starts In... " + outcount);
+    $('#question').html("Get Ready!");
     var ttimer = setInterval(function() {
         if (outcount !== 1)
         {
             outcount--;
-            $("#welcome").html("The Game Starts In... " + outcount);
+            $('#welcome').html("The Game Starts In... " + outcount);
         }
         else {
             clearInterval(ttimer);
@@ -116,7 +127,6 @@ TriviaGame.prototype.DoCountdown = function(callback) {
 };
 
 TriviaGame.prototype.CheckAnswer = function(ans) {
-    var animateBackground = $("#jumbotron .question-wrapper");
     if (ans === this.triviaQuestions[this.nextQuestion - 1].rightAnswer)
     {
         this.AdjustScore(1);
@@ -138,7 +148,7 @@ TriviaGame.prototype.AdjustScore = function(minplus) {
     }
     else {
         self.score = self.score + minplus;
-        $("#score").html(this.score);
+        self.UpdateScoreboard();
         self.SelectQuestion();
         self.StartProgressBar("1");
     }
@@ -149,6 +159,7 @@ TriviaGame.prototype.StartProgressBar = function() {
     self.progressbar.set(0);
     self.progressbar.animate(1, {duration:10000},
                         function(){
+                            // TO-DO: fix this so it stops running when game ends
                             self.progressbar.set(0);
                             self.CheckAnswer("[]76/'.;.'2.1';.21';4.3'2./4';1.241'/.4';2.");
                         });

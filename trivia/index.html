@@ -43,13 +43,13 @@
             <h1>You Win!</h1>
             <img src="images/anim-bird-nerd-200.gif">
             <p>Visit <a href="http://www.build-it-yourself.com">Build-It-Yourself</a></p>
-                <p>or <a href="#" id="retry">Play Again</a></p>
+                <p>or <a href="#" class="biy-play-again">Play Again</a></p>
         </div>
         <div id="failureSplash" class="biy-splash" style="display:none;">
             <h1>You Lose!</h1>
             <img src="images/anim-bird-nerd-200.gif">
             <p>Visit <a href="http://www.build-it-yourself.com">Build-It-Yourself</a></p>
-                <p>or <a href="#" id="retry">Retry</a></p>
+                <p>or <a href="#" class="biy-play-again">Retry</a></p>
         </div>
         <div id="TriviaGame" style="display:none;">
             <div class="biy-scoreboard col-sm-4">
@@ -83,6 +83,10 @@
         <script>
             var game = new TriviaGame(new TriviaDataServiceHardcoded());
             game.Initialize();
+            
+            $('.biy-play-again').click(function(){
+                game.Play();
+            });
         </script>
 
     </body>
